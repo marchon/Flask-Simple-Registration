@@ -23,9 +23,9 @@ class SimpleRegistration(object):
 
         app.before_request(self.before_request)
 
-        app.add_url_route(login_url, None, self.login, methods=["GET", "POST"])
-        app.add_url_route(signup_url, None, self.signup, methods=["GET", "POST"])
-        app.add_url_route(logout_url, None, self.logout)
+        app.add_url_rule(login_url, None, self.login, methods=["GET", "POST"])
+        app.add_url_rule(signup_url, None, self.signup, methods=["GET", "POST"])
+        app.add_url_rule(logout_url, None, self.logout)
 
     def before_request(self):
         flask.g.user = None
