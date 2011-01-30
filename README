@@ -1,0 +1,50 @@
+Flask-Simple-Registration
+=========================
+
+This Flask extension provides a somewhat opinionated method of doing the very
+basic components needed for user registration and login/logout. It allows for
+lots of flexibility and should be what you need to get a basic system up and
+running. It assumes that you're using Flask-WTF and Flask-SQLAlchemy. You can
+customize the forms and your user model to be whatever you'd like. This
+essentially provides the boilerplate code. Unfortunately, you still have to
+write some yourself. This registration also doesn't do things like email
+validation before a user is active - it's designed for simple use cases.
+
+Setup
+=====
+
+First off, you're going to need to create some forms and models for your
+application. They should inheret from 
+
+<pre>
+from flaskext import simpleregistration
+
+# set up your app, etc. Then...
+
+@app.before_request
+simpleregistration.provide_user(user=MyUser)
+
+
+@app.route("/login", methods=["GET", "POST"])
+simpleregistration.login(form=MyLoginForm, redirect=flask.urlfor("dashboard"))
+
+@app.route("/signup", methods=["GET", "POST"])
+simpleregistration.signup(form=MySignupForm, redirect=flask.urlfor("welcome"))
+
+@app.route("/logout")
+simpleregistration.logout(redirect=flask.urlfor("index"))
+</pre>
+
+And you're good to go, assuming that your forms and models have the required methods.
+
+Forms and Models
+================
+
+Your login form should at some point during the validation process set the
+"user" attribute on itself to be an instance of your user. This user object
+*must* provide a *user_id* property. This will get stored in the session and be
+used to provide the global user object.
+
+The signup form *must* provide a *save* method. This saves the user based on
+the form's data and returns an instance of the user, which is then used to log
+the user in immediately.
