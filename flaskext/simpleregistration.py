@@ -1,3 +1,4 @@
+import functools
 import re
 
 import flask
@@ -41,3 +42,13 @@ def signup(form, redirect):
             return flask.redirect(redirect)
         flask.flash("Sorry, there was an error!", category="error")
     return flask.render_template("signup.html", form=form)
+
+
+def login_required(f):
+    @functools.wraps(f)
+    def decorated_function(*args, **kwargs):
+        if flask.g.user is None:
+            return flask.redirect(flask.url_for('login',
+                next=flask.request.path))
+        return f(*args, **kwargs)
+    return decorated_function

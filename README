@@ -48,3 +48,12 @@ used to provide the global user object.
 The signup form *must* provide a *save* method. This saves the user based on
 the form's data and returns an instance of the user, which is then used to log
 the user in immediately.
+
+
+Login Required
+==============
+
+There's a decorator to provide login-required functionality.
+@flaskext.login_required will redirect the user to a login form with a "next"
+GET arg. Once the user logs in, they will be redirected back to the page they
+were on.
