@@ -10,6 +10,8 @@ class SimpleRegistration(object):
             logout_url, logout_redirect, signup_url, signup_form,
             signup_redirect):
 
+        self.user_model = user_model
+
         self.login_url = login_url
         self.login_form = login_form
         self.login_redirect = login_redirect
