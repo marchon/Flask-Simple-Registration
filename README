@@ -16,26 +16,29 @@ Setup
 First off, you're going to need to create some forms and models for your
 application. They should inheret from 
 
-<pre>
-from flaskext import simpleregistration
 
-# set up your app, etc. Then...
+    from flaskext import simpleregistration
 
-@app.before_request
-simpleregistration.provide_user(user=MyUser)
+    # set up your app, etc. Then...
 
+    simplereg = simpleregistration.SimpleRegistration(
+        app=app,
+        user_model=MyUserModel,
+        login_url="/login",
+        login_form=MyLoginForm,
+        login_redirect="dashboard",
+        logout_url="/logout",
+        logout_redirect="index",
+        signup_url="/signup",
+        signup_form=MySignupForm,
+        signup_redirect="welcome"
+    )
 
-@app.route("/login", methods=["GET", "POST"])
-simpleregistration.login(form=MyLoginForm, redirect=flask.urlfor("dashboard"))
-
-@app.route("/signup", methods=["GET", "POST"])
-simpleregistration.signup(form=MySignupForm, redirect=flask.urlfor("welcome"))
-
-@app.route("/logout")
-simpleregistration.logout(redirect=flask.urlfor("index"))
-</pre>
 
 And you're good to go, assuming that your forms and models have the required methods.
+
+For the _url methods, simpleregistration routes that for you. For the _redirect
+urls, simpleregistration will do the url_for routing for you.
 
 Forms and Models
 ================
